@@ -23,15 +23,17 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        daraja = initDaraja()
+        daraja = initializeDaraja()
 
         binding.apply {
             btnPay.setOnClickListener {
                 val phoneNumber = edPhone.text.toString().trim()
                 val amount = edAmount.text.toString().trim()
-                Toast.makeText(this@MainActivity, """Phone $phoneNumber
+                Toast.makeText(
+                    this@MainActivity, """Phone $phoneNumber
                     |Amount $amount
-                """.trimMargin(), Toast.LENGTH_SHORT).show()
+                """.trimMargin(), Toast.LENGTH_SHORT
+                ).show()
 
                 val lnmExpress = LNMExpress(
                     Constants.BUSINESS_SHORTCODE,
@@ -53,6 +55,7 @@ class MainActivity : AppCompatActivity() {
                             "Response here ${lnmResult.ResponseDescription}",
                             Toast.LENGTH_SHORT
                         ).show()
+                        resetValues()
                     }
 
                     override fun onError(error: String?) {
@@ -69,7 +72,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initDaraja(): Daraja {
+    private fun ActivityMainBinding.resetValues() {
+        edPhone.setText("")
+        edAmount.setText("")
+    }
+
+    private fun initializeDaraja(): Daraja {
         return Daraja.with(
             BuildConfig.CONSUMER_KEY,
             BuildConfig.CONSUMER_SECRET,
@@ -92,27 +100,4 @@ class MainActivity : AppCompatActivity() {
 
     }
 
-
- /*   OkHttpClient client = new OkHttpClient().newBuilder().build();
-    MediaType mediaType = MediaType.parse("application/json");
-    RequestBody body = RequestBody.create(mediaType, {
-        "BusinessShortCode": 174379,
-        "Password": "MTc0Mzc5YmZiMjc5ZjlhYTliZGJjZjE1OGU5N2RkNzFhNDY3Y2QyZTBjODkzMDU5YjEwZjc4ZTZiNzJhZGExZWQyYzkxOTIwMjIwNTEzMTQyNzU0",
-        "Timestamp": "20220513142754",
-        "TransactionType": "CustomerPayBillOnline",
-        "Amount": 1,
-        "PartyA": 254740594418,
-        "PartyB": 174379,
-        "PhoneNumber": 254740594418,
-        "CallBackURL": "https://mydomain.com/path",
-        "AccountReference": "CompanyXLTD",
-        "TransactionDesc": "Payment of X"
-    });
-    Request request = new Request.Builder()
-    .url("https://sandbox.safaricom.co.ke/mpesa/stkpush/v1/processrequest")
-    .method("POST", body)
-    .addHeader("Content-Type", "application/json")
-    .addHeader("Authorization", "Bearer g7ThsKGeAFpXrRAb4TQzGO5mGLh7")
-    .build();
-    Response response = client.newCall(request).execute()*/
 }
