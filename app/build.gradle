@@ -21,6 +21,7 @@ android {
 
         buildConfigField('String', 'CONSUMER_KEY', properties['CONSUMER_KEY'])
         buildConfigField('String', 'CONSUMER_SECRET', properties['CONSUMER_SECRET'])
+        buildConfigField('String', 'PASSKEY', properties['PASSKEY'])
 
 
     }
